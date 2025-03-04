@@ -1,3 +1,5 @@
+import React from 'react';
+
 const NavBar = () => {
   return (
     <div className="navbar bg-base-300 shadow-sm px-6 flex justify-between w-full">
@@ -15,6 +17,7 @@ const NavBar = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="User avatar"
+                className="mr-4"
                 src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
               />
             </div>
