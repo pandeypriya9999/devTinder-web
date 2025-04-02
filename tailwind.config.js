@@ -1,13 +1,8 @@
-// tailwind.config.js
-module.exports = {
-  purge: [
-    './src/**/*.html',
-    './src/**/*.js',
-  ],
-  darkMode: false, // or 'media' or 'class'
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {},
   },
-  variants: {},
   plugins: [require("daisyui")],
-}
+};
