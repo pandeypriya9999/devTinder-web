@@ -36,7 +36,7 @@ const NavBar = () => {
 
       {user && (
         <div className="flex gap-2 ml-auto mr-4">
-          <p>Welcom, {user.firstName}</p>
+          <p>Welcome, {user.firstName}</p>
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -52,7 +52,7 @@ const NavBar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link to="/" className="justify-between">
+                <Link to="/profile" className="justify-between">
                   Profile
                   <span className="badge">New</span>
                 </Link>

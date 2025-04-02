@@ -6,10 +6,11 @@ import { addUser } from '../utils/userSlice';
 import { BASE_URL } from '../utils/constants';
 
 const Login = () => {
-  const [emailId, setEmaiId] = useState('A@gmail.com');
-  const [password, setPassword] = useState('Abhi@123');
+  const [emailId, setEmaiId] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleLogin = async () => {
     try {
@@ -21,9 +22,19 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+
+      // If login is successful, navigate to the home page
       dispatch(addUser(loginRes.data));
       return navigate('/');
     } catch (err) {
+      // Handle errors based on status codes
+      if (err.response && err.response.status === 401) {
+        setError('Invalid email or password. Please try again.');
+      } else if (err.response && err.response.status === 404) {
+        setError('User is not registered.');
+      } else {
+        setError('An unexpected error occurred. Please try again later.');
+      }
       console.log(err.message);
     }
   };
@@ -64,6 +75,7 @@ const Login = () => {
             />
           </div>
 
+          <p className="text-red-500">{error}</p>
           {/* Login Button */}
           <button
             className="mt-5 w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-md shadow-md transition"
