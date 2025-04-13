@@ -11,14 +11,16 @@ export const UserCard = ({ user = {} }) => {
 
   const handleSendRequest = async (status, userId) => {
     try {
-      const res = await axios.post(
+      await axios.post(
         `${BASE_URL}/request/send/${status}/${userId}`,
         {},
         { withCredentials: true }
       );
 
       dispatch(removeUserFeed(userId));
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error fetching feed:', error.response?.data || error);
+    }
   };
   return (
     <div className="card bg-base-300 w-96 shadow-sm">
@@ -33,7 +35,7 @@ export const UserCard = ({ user = {} }) => {
         <div className="card-actions justify-center my-4">
           <button
             className="btn btn-primary"
-            onClick={() => handleSendRequest('ignore', _id)}
+            onClick={() => handleSendRequest('ignored', _id)}
           >
             Ignore
           </button>
