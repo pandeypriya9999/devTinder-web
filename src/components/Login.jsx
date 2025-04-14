@@ -8,6 +8,9 @@ import { BASE_URL } from '../utils/constants';
 const Login = () => {
   const [emailId, setEmaiId] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [isLoginForm, setIsLoginForm] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState('');
@@ -24,7 +27,7 @@ const Login = () => {
       );
 
       // If login is successful, navigate to the home page
-      dispatch(addUser(loginRes.data));
+      dispatch(addUser(loginRes.data.data));
       return navigate('/');
     } catch (err) {
       // Handle errors based on status codes
@@ -36,6 +39,32 @@ const Login = () => {
         setError('An unexpected error occurred. Please try again later.');
       }
       console.log(err.message);
+    }
+  };
+
+  const handleSignUp = async () => {
+    try {
+      const signUpRes = await axios.post(
+        BASE_URL + '/signup',
+        {
+          emailId,
+          password,
+          firstName,
+          lastName,
+        },
+        { withCredentials: true }
+      );
+
+      // If signup is successful, navigate to the home page
+      dispatch(addUser(signUpRes.data.data));
+      return navigate('/profile');
+    } catch (err) {
+      // Handle errors based on status codes
+      if (err.response && err.response.status === 409) {
+        setError('User already exists.');
+      } else {
+        setError('An unexpected error occurred. Please try again later.');
+      }
     }
   };
 
@@ -54,11 +83,30 @@ const Login = () => {
         {/* Right Login Section */}
         <div className="w-1/2 p-6 flex flex-col justify-center">
           <h2 className="text-2xl font-semibold text-white mb-4 text-center">
-            Login
+            {isLoginForm ? 'Login' : 'Sign Up'}
           </h2>
 
           {/* Input Fields */}
           <div className="space-y-4">
+            {/* Conditionally render firstName and lastName fields */}
+            {!isLoginForm && (
+              <>
+                <input
+                  type="text"
+                  placeholder="FirstName"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <input
+                  type="text"
+                  placeholder="LastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </>
+            )}
             <input
               type="text"
               placeholder="Email or Username"
@@ -79,10 +127,18 @@ const Login = () => {
           {/* Login Button */}
           <button
             className="mt-5 w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-md shadow-md transition"
-            onClick={handleLogin}
+            onClick={isLoginForm ? handleLogin : handleSignUp}
           >
-            Login
+            {isLoginForm ? 'Login' : 'Sign Up'}
           </button>
+          <p
+            className=" cursor-pointer py-2"
+            onClick={() => setIsLoginForm((value) => !value)}
+          >
+            {isLoginForm
+              ? "Don't have an account? Sign Up"
+              : 'Already have an account? Login'}
+          </p>
         </div>
       </div>
     </div>
