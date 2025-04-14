@@ -38,7 +38,7 @@ const EditProfile = ({ user }) => {
       setTimeout(() => {
         setshowToast(false);
       }, 3000);
-    } catch (error) {
+    } catch (err) {
       // Handle errors based on status codes
       if (err.response && err.response.status === 401) {
         setError('Invalid email or password. Please try again.');
