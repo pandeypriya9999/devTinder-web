@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { BASE_URL } from '../utils/constants';
 import { removeUserFeed } from '../utils/feedSlice';
 
-export const UserCard = ({ user = {} }) => {
+const UserCard = ({ user = {} }) => {
   console.log('User:', user);
   const { _id, firstName, lastName, photoUrl, age, gender, about } = user;
   const dispatch = useDispatch();
@@ -50,3 +50,5 @@ export const UserCard = ({ user = {} }) => {
     </div>
   );
 };
+
+export default UserCard;
